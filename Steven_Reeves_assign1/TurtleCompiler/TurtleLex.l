@@ -80,13 +80,13 @@ pink		{ PrintKeyword(yytext); }
 
 int			{ PrintKeyword(yytext); }
 
-[A-Z0-9]	{ PrintIdentifier(yytext); }
+([a-zA-Z][a-zA-Z0-9]*)*	{ PrintIdentifier(yytext); }
 
 \/\/.*\n	{printf("Single line comment: %s", yytext);}
 
 \/\*([^*]|(\*+[^*/]))*\*+\/	{printf("C style line comment: %s\n", yytext);}
 
-[^ \+\-\*\>\/\<\=\(\)\t\n]*	{ PrintIllegal(yytext);}
+[^ \-\*+>/<=\(\)\t\n]*	{ PrintIllegal(yytext);}
 [ \t\n]		{ /* nothing! */ }
 
 (\t|" ")+	{ /* ignore whitespace */ }
