@@ -27,16 +27,67 @@ void PrintIllegal(const char * lexeme);
 
 "["			{ PrintKeyword(yytext); }
 "]"			{ PrintKeyword(yytext); }
+"="			{ PrintKeyword(yytext); }
+">"			{ PrintKeyword(yytext); }
+"<"			{ PrintKeyword(yytext); }
+"+"			{ PrintKeyword(yytext); }
+"-"			{ PrintKeyword(yytext); }
+"*"			{ PrintKeyword(yytext); }
+"/"			{ PrintKeyword(yytext); }
+"("			{ PrintKeyword(yytext); }
+")"			{ PrintKeyword(yytext); }
 
 home		{ PrintKeyword(yytext); }
 fd			{ PrintKeyword(yytext); }
 setxy		{ PrintKeyword(yytext); }
+bk			{ PrintKeyword(yytext); }
+rt			{ PrintKeyword(yytext); }
+lt			{ PrintKeyword(yytext); }
+setc		{ PrintKeyword(yytext); }
+setx		{ PrintKeyword(yytext); }
+sety		{ PrintKeyword(yytext); }
+seth		{ PrintKeyword(yytext); }
+pd			{ PrintKeyword(yytext); }
+pu			{ PrintKeyword(yytext); }
+ht			{ PrintKeyword(yytext); }
+st			{ PrintKeyword(yytext); }
 
+color		{ PrintKeyword(yytext); } 
+xcor		{ PrintKeyword(yytext); }
+ycor		{ PrintKeyword(yytext); }
+heading		{ PrintKeyword(yytext); }
+random		{ PrintKeyword(yytext); }
+
+if			{ PrintKeyword(yytext); }
+ifelse		{ PrintKeyword(yytext); }
+repeat		{ PrintKeyword(yytext); }
+
+black		{ PrintKeyword(yytext); }
+white		{ PrintKeyword(yytext); }
+orange		{ PrintKeyword(yytext); }
+yellow		{ PrintKeyword(yytext); }
+lime		{ PrintKeyword(yytext); }
+cyan		{ PrintKeyword(yytext); }
+blue		{ PrintKeyword(yytext); }
+magenta		{ PrintKeyword(yytext); }
+red			{ PrintKeyword(yytext); }
+brown		{ PrintKeyword(yytext); }
+green		{ PrintKeyword(yytext); }
+turquoise	{ PrintKeyword(yytext); }
+sky			{ PrintKeyword(yytext); }
+violet		{ PrintKeyword(yytext); }
+pink		{ PrintKeyword(yytext); }
+
+int			{ PrintKeyword(yytext); }
+
+[A-Z0-9]	{ PrintIdentifier(yytext); }
 
 \/\/.*\n	{printf("Single line comment: %s", yytext);}
 
-\/\*(.|\n)*\*\/	{printf("C style line comment: %s", yytext);}
+\/\*([^*]|(\*+[^*/]))*\*+\/	{printf("C style line comment: %s\n", yytext);}
 
+[^ \+\-\*\>\/\<\=\(\)\t\n]*	{ PrintIllegal(yytext);}
+[ \t\n]		{ /* nothing! */ }
 
 (\t|" ")+	{ /* ignore whitespace */ }
 
