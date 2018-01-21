@@ -82,11 +82,11 @@ int			{ PrintKeyword(yytext); }
 
 ([a-zA-Z][a-zA-Z0-9]*)*	{ PrintIdentifier(yytext); }
 
-\/\/.*\n	{printf("Single line comment: %s", yytext);}
+\/\/.*\n	{/* ignore comments */}
 
-\/\*([^*]|(\*+[^*/]))*\*+\/	{printf("C style line comment: %s\n", yytext);}
+\/\*([^*]|(\*+[^*/]))*\*+\/	{/* ignore comments */}
 
-[^ \-\*+>/<=\(\)\t\n]*	{ PrintIllegal(yytext);}
+[^ \-\*+>/<=\(\)\[\]\t\n]*	{ PrintIllegal(yytext);}
 [ \t\n]		{ /* nothing! */ }
 
 (\t|" ")+	{ /* ignore whitespace */ }
