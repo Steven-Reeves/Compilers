@@ -2,11 +2,11 @@
 %{
 
 /* Turtle Compiler lex file
-   by Pete Myers
+   by Pete Myers and Steven Reeves 
    OIT Portland Fall 2008
    Flex C++ version Jan 2017
 
-   Assignment 1 Handout
+   Built off of Assignment 1 Handout
 */
 
 #include <stdio.h>
