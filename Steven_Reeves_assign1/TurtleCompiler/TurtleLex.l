@@ -86,7 +86,7 @@ int			{ PrintKeyword(yytext); }
 
 \/\*([^*]|(\*+[^*/]))*\*+\/	{/* ignore comments */}
 
-[^ \-\*+>/<=\(\)\[\]\t\n]*	{ PrintIllegal(yytext);}
+[^ \*+>/<=\(\)\[\]\t\n-]*	{ PrintIllegal(yytext);}
 [ \t\n]		{ /* nothing! */ }
 
 (\t|" ")+	{ /* ignore whitespace */ }
