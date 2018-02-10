@@ -48,7 +48,10 @@ extern int yydebug;
    enum yytokentype {
      HOME = 258,
      FD = 259,
-     NUMBER = 260
+     NUMBER = 260,
+     COLOR_NAME = 261,
+     SETXY = 262,
+     SETC = 263
    };
 #endif
 
