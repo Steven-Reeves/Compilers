@@ -25,11 +25,37 @@
 "-"			{ return yytext[0]; }
 "*"			{ return yytext[0]; }
 "/"			{ return yytext[0]; }
+"="			{ return yytext[0]; }
+">"			{ return yytext[0]; }
+"<"			{ return yytext[0]; }
+"("			{ return yytext[0]; }
+")"			{ return yytext[0]; }
+"["			{ return yytext[0]; }
+"]"			{ return yytext[0]; }
 
 home		{ return HOME; }
 fd			{ return FD; }
 setxy		{ return SETXY; }
 setc		{ return SETC; }
+if			{ return IF; }
+ifelse		{ return IFELSE; }
+repeat		{ return REPEAT; }
+random		{ return RANDOM; }
+bk			{ return BK; }
+rt			{ return RT; }
+lt			{ return LT; }
+setx		{ return SETX; }
+sety		{ return SETY; }
+seth		{ return SETH; }
+pd			{ return PD; }
+pu			{ return PU; }
+ht			{ return HT; }
+st			{ return ST; }
+xcor		{ return XCOR; }
+ycor		{ return YCOR; }
+heading		{ return HEADING; }
+color		{ return COLOR; }
+
 
 black		{ return COLOR_NAME; }
 white		{ return COLOR_NAME; }

@@ -49,9 +49,27 @@ extern int yydebug;
      HOME = 258,
      FD = 259,
      NUMBER = 260,
-     COLOR_NAME = 261,
-     SETXY = 262,
-     SETC = 263
+     COLOR = 261,
+     COLOR_NAME = 262,
+     XCOR = 263,
+     YCOR = 264,
+     HEADING = 265,
+     RANDOM = 266,
+     SETXY = 267,
+     SETC = 268,
+     IF = 269,
+     IFELSE = 270,
+     REPEAT = 271,
+     BK = 272,
+     RT = 273,
+     LT = 274,
+     SETX = 275,
+     SETY = 276,
+     SETH = 277,
+     PD = 278,
+     PU = 279,
+     HT = 280,
+     ST = 281
    };
 #endif
 
