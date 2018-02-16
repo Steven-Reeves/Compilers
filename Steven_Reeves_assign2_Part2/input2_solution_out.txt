@@ -1,0 +1,7 @@
+function->COLOR
+expression->function
+expression->COLOR_NAME
+condition->expression = expression
+statement->HOME
+
+ERROR! line #4 syntax error at bk

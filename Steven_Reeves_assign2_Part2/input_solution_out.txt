@@ -1,0 +1,14 @@
+function->COLOR
+expression->function
+expression->COLOR_NAME
+condition->expression = expression
+expression->NUMBER
+statement->RT expression
+expression->NUMBER
+statement->FD expression
+statements-><empty>
+statements->statement statements
+statements->statement statements
+statement->IF ( condition ) [ statements ]
+statements-><empty>
+statements->statement statements
