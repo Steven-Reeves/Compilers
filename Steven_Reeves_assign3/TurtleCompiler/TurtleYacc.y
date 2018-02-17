@@ -1,11 +1,11 @@
 %{
 
 /* Turtle Compiler yacc file
-   by Pete Myers
+   by Pete Myers and Steven Reeves
    OIT Portland Fall 2008
    Bison C++ version Jan 2017
 
-   Assign 3 Handout
+   Assign 3 
 */
 
 #include <stdio.h>
@@ -39,8 +39,24 @@ int yylex(void);
 %token FD
 %token COLOR
 %token XCOR
-%token RT
+%token YCOR
+%token HEADING
+%token RANDOM
+%token SETXY
+%token SETC
 %token IF
+%token IFELSE
+%token REPEAT
+%token BK
+%token RT
+%token LT
+%token SETX
+%token SETY
+%token SETH
+%token PD 
+%token PU 
+%token HT 
+%token ST 
 %token <colorType> COLOR_NAME
 %token <value> NUMBER
 
@@ -77,9 +93,21 @@ statements:	statement statements		{
 	;
 
 statement:	HOME						{ $$ = factory->CreateTurtleCmd(CMD_HOME); }
+	|	PD								{ $$ = factory->CreateTurtleCmd(CMD_PD); }
+	|	PU								{ $$ = factory->CreateTurtleCmd(CMD_PU); }
+	|	HT								{ $$ = factory->CreateTurtleCmd(CMD_HT); }
+	|	ST								{ $$ = factory->CreateTurtleCmd(CMD_ST); }
 	|	FD expression					{ $$ = factory->CreateTurtleCmd(CMD_FD, $2); }
 	|	RT expression					{ $$ = factory->CreateTurtleCmd(CMD_RT, $2); }
+	|	LT expression					{ $$ = factory->CreateTurtleCmd(CMD_LT, $2); }
+	|	BK expression					{ $$ = factory->CreateTurtleCmd(CMD_BK, $2); }
+	|	SETC expression					{ $$ = factory->CreateTurtleCmd(CMD_SETC, $2); }
+	|	SETX expression					{ $$ = factory->CreateTurtleCmd(CMD_SETX, $2); }
+	|	SETY expression					{ $$ = factory->CreateTurtleCmd(CMD_SETY, $2); }
+	|	SETXY expression expression		{ $$ = factory->CreateTurtleCmd(CMD_SETXY, $2, $3); }
 	|	IF '(' condition ')' '[' statements ']'	{ $$ = factory->CreateIf($3, $6); }
+	|	IFELSE '(' condition ')' '[' statements ']' '[' statements ']'	{ $$ = factory->CreateIfElse($3, $6, $9); }
+	|	REPEAT expression '[' statements ']'	{ $$ = factory->CreateRepeat($2, $4); }	
 	;
 
 expression:	expression '+' expression	{ $$ = factory->CreateOperator(OT_PLUS, $1, $3); }

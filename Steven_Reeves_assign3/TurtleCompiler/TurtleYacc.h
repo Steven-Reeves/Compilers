@@ -50,10 +50,26 @@ extern int yydebug;
      FD = 259,
      COLOR = 260,
      XCOR = 261,
-     RT = 262,
-     IF = 263,
-     COLOR_NAME = 264,
-     NUMBER = 265
+     YCOR = 262,
+     HEADING = 263,
+     RANDOM = 264,
+     SETXY = 265,
+     SETC = 266,
+     IF = 267,
+     IFELSE = 268,
+     REPEAT = 269,
+     BK = 270,
+     RT = 271,
+     LT = 272,
+     SETX = 273,
+     SETY = 274,
+     SETH = 275,
+     PD = 276,
+     PU = 277,
+     HT = 278,
+     ST = 279,
+     COLOR_NAME = 280,
+     NUMBER = 281
    };
 #endif
 
@@ -72,7 +88,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 76 "TurtleYacc.h"
+#line 92 "TurtleYacc.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

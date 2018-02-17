@@ -19,7 +19,7 @@
 
 %%
 
-[0-9]+		{ return NUMBER; }
+"-"?[0-9]+		{ return NUMBER; }
 
 "+"			{ return yytext[0]; }
 "-"			{ return yytext[0]; }

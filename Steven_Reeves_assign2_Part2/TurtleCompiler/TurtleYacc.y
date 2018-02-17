@@ -79,7 +79,6 @@ expression:	expression '+' expression	{ printf("expression->expression + express
 	|	expression '-' expression		{ printf("expression->expression - expression\n"); }
 	|	expression '*' expression		{ printf("expression->expression * expression\n"); }
 	|	expression '/' expression		{ printf("expression->expression / expression\n"); }
-	|	'-' expression					{ printf("expression-> - expression\n"); }
 	|	'(' expression ')'				{ printf("expression->( expression)\n"); }
 	|	NUMBER							{ printf("expression->NUMBER\n"); }
 	|	COLOR_NAME						{ printf("expression->COLOR_NAME\n"); }
