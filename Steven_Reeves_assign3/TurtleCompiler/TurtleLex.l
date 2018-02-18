@@ -21,7 +21,7 @@
 
 %%
 
-[0-9]+			{ yylval.value = atoi(yytext); return NUMBER; }
+"-"?[0-9]+			{ yylval.value = atoi(yytext); return NUMBER; }
 
 black			{yylval.colorType = BLACK; return COLOR_NAME;}
 white			{yylval.colorType = WHITE; return COLOR_NAME;}

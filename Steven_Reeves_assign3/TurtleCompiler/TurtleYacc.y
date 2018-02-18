@@ -112,16 +112,24 @@ statement:	HOME						{ $$ = factory->CreateTurtleCmd(CMD_HOME); }
 
 expression:	expression '+' expression	{ $$ = factory->CreateOperator(OT_PLUS, $1, $3); }
 	|	expression '-' expression		{ $$ = factory->CreateOperator(OT_MINUS, $1, $3); }
+	|	expression '*' expression		{ $$ = factory->CreateOperator(OT_TIMES, $1, $3); }
+	|	expression '/' expression		{ $$ = factory->CreateOperator(OT_DIVIDE, $1, $3); }
 	|	NUMBER							{ $$ = factory->CreateNumber($1); }
 	|	function						{ $$ = $1; }
+	|	'(' expression ')'				{ $$ = $2; }
 	|	COLOR_NAME						{ $$ = factory->CreateColorName($1);}
 	;
 
 function: COLOR							{ $$ = factory->CreateFunction(FT_COLOR);}
 	|	XCOR							{ $$ = factory->CreateFunction(FT_XCOR);}
+	|	YCOR							{ $$ = factory->CreateFunction(FT_YCOR);}
+	|	HEADING							{ $$ = factory->CreateFunction(FT_HEADING);}
+	|	RANDOM '(' expression ')'		{ $$ = factory->CreateFunction(FT_RANDOM, $3);}
 	;
 
 condition: expression '=' expression	{ $$ = factory->CreateOperator(OT_EQUALS, $1, $3);}
+	|	expression '<' expression	{ $$ = factory->CreateOperator(OT_LESSTHAN, $1, $3);}
+	|	expression '>' expression	{ $$ = factory->CreateOperator(OT_GREATERTHAN, $1, $3);}
 	;
 
 %%
