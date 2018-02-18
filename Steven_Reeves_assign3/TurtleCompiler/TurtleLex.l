@@ -51,7 +51,7 @@ pink			{yylval.colorType = PINK; return COLOR_NAME;}
 "["			{ return yytext[0]; }
 "]"			{ return yytext[0]; }
 
-
+int			{ return INT; }
 home		{ return HOME; }
 fd			{ return FD; }
 setxy		{ return SETXY; }
@@ -74,6 +74,16 @@ xcor		{ return XCOR; }
 ycor		{ return YCOR; }
 heading		{ return HEADING; }
 color		{ return COLOR; }
+
+[a-zA-Z][a-zA-Z0-9]*	{ 
+							SymbolTable::Entry * entry = SymbolTable::GetInstance()->Lookup(yytext);
+							if(entry == NULL)
+							{
+								entry = SymbolTable::GetInstance()->Insert(yytext, VARIABLE);
+							}
+							yylval.symentry = entry;
+							return VARIABLE;
+						}
 
 .			{ }
 \n			{ yylineno++; }

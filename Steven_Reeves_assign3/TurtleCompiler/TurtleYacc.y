@@ -57,6 +57,8 @@ int yylex(void);
 %token PU 
 %token HT 
 %token ST 
+%token INT 
+%token <symentry> VARIABLE
 %token <colorType> COLOR_NAME
 %token <value> NUMBER
 
@@ -107,7 +109,24 @@ statement:	HOME						{ $$ = factory->CreateTurtleCmd(CMD_HOME); }
 	|	SETXY expression expression		{ $$ = factory->CreateTurtleCmd(CMD_SETXY, $2, $3); }
 	|	IF '(' condition ')' '[' statements ']'	{ $$ = factory->CreateIf($3, $6); }
 	|	IFELSE '(' condition ')' '[' statements ']' '[' statements ']'	{ $$ = factory->CreateIfElse($3, $6, $9); }
-	|	REPEAT expression '[' statements ']'	{ $$ = factory->CreateRepeat($2, $4); }	
+	|	REPEAT expression '[' statements ']'	{ $$ = factory->CreateRepeat($2, $4); }
+	|	INT VARIABLE					{ 
+											if ($2->type != -1)
+											{
+												yyerror("Variable already declared!");
+												YYABORT;
+											}
+											$2->type = VT_INT;
+											$$ = factory->CreateDeclaration(VT_INT, factory->CreateVariable($2));
+										}
+	|	VARIABLE '=' expression			{
+											if ($1->type == -1)
+											{
+												yyerror("Variable must be declared before use!");
+												YYABORT;
+											}
+											$$ = factory->CreateAssignment(factory->CreateVariable($1), $3);
+										}
 	;
 
 expression:	expression '+' expression	{ $$ = factory->CreateOperator(OT_PLUS, $1, $3); }
@@ -118,6 +137,14 @@ expression:	expression '+' expression	{ $$ = factory->CreateOperator(OT_PLUS, $1
 	|	function						{ $$ = $1; }
 	|	'(' expression ')'				{ $$ = $2; }
 	|	COLOR_NAME						{ $$ = factory->CreateColorName($1);}
+	|	VARIABLE						{ 
+											if ($1->type == -1)
+											{
+												yyerror("Variable must be declared before use!");
+												YYABORT;
+											}
+											$$ = factory->CreateVariable($1);
+										}
 	;
 
 function: COLOR							{ $$ = factory->CreateFunction(FT_COLOR);}

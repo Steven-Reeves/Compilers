@@ -68,8 +68,10 @@ extern int yydebug;
      PU = 277,
      HT = 278,
      ST = 279,
-     COLOR_NAME = 280,
-     NUMBER = 281
+     INT = 280,
+     VARIABLE = 281,
+     COLOR_NAME = 282,
+     NUMBER = 283
    };
 #endif
 
@@ -88,7 +90,7 @@ typedef union YYSTYPE
 
 
 /* Line 2058 of yacc.c  */
-#line 92 "TurtleYacc.h"
+#line 94 "TurtleYacc.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
