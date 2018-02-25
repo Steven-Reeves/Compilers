@@ -1,0 +1,17 @@
+Syntax Tree...
+BLOCK 
+    IFELSE 
+        OPERATOR =
+            FUNCTION COLOR
+            COLOR_NAME RED
+        BLOCK 
+        BLOCK 
+    IF 
+        OPERATOR =
+            FUNCTION COLOR
+            COLOR_NAME RED
+        BLOCK 
+    REPEAT 
+        NUMBER 3
+        BLOCK 
+

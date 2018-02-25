@@ -1,0 +1,91 @@
+Syntax Tree...
+BLOCK 
+    DECLARATION INT
+        VARIABLE x
+    DECLARATION INT
+        VARIABLE y
+    ASSIGNMENT 
+        VARIABLE x
+        NUMBER 5
+    ASSIGNMENT 
+        VARIABLE y
+        VARIABLE x
+    TURTLE_CMD FD
+        NUMBER 10
+    TURTLE_CMD BK
+        OPERATOR +
+            NUMBER 20
+            VARIABLE x
+    TURTLE_CMD RT
+        OPERATOR +
+            VARIABLE x
+            NUMBER 30
+    TURTLE_CMD LT
+        NUMBER 40
+    TURTLE_CMD HOME
+    TURTLE_CMD SETC
+        OPERATOR +
+            COLOR_NAME BLACK
+            NUMBER 1
+    TURTLE_CMD PD
+    TURTLE_CMD PU
+    IF 
+        OPERATOR =
+            OPERATOR -
+                NUMBER 3
+                VARIABLE x
+            OPERATOR -
+                OPERATOR /
+                    FUNCTION COLOR
+                    COLOR_NAME BLACK
+                NUMBER 2
+        BLOCK 
+            TURTLE_CMD FD
+                NUMBER 10
+            TURTLE_CMD BK
+                NUMBER 20
+            TURTLE_CMD RT
+                NUMBER 30
+            TURTLE_CMD LT
+                NUMBER 40
+            TURTLE_CMD HOME
+            TURTLE_CMD SETC
+                OPERATOR +
+                    COLOR_NAME BLACK
+                    NUMBER 1
+            TURTLE_CMD PD
+            TURTLE_CMD PU
+    IF 
+        OPERATOR <
+            FUNCTION XCOR
+            OPERATOR /
+                OPERATOR *
+                    NUMBER 3
+                    NUMBER 2
+                VARIABLE x
+        BLOCK 
+            TURTLE_CMD HOME
+    IF 
+        OPERATOR >
+            FUNCTION YCOR
+            NUMBER 42
+        BLOCK 
+            TURTLE_CMD BK
+                NUMBER 20
+    IFELSE 
+        OPERATOR =
+            FUNCTION COLOR
+            NUMBER 10
+        BLOCK 
+            TURTLE_CMD FD
+                NUMBER 10
+        BLOCK 
+            TURTLE_CMD BK
+                NUMBER 15
+    REPEAT 
+        OPERATOR +
+            NUMBER 3
+            NUMBER 4
+        BLOCK 
+            TURTLE_CMD PD
+

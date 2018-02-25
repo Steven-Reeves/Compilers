@@ -1,0 +1,1 @@
+Error! Line #1, variable 'x' used without being declared!

@@ -1,0 +1,10 @@
+Syntax Tree...
+BLOCK 
+    TURTLE_CMD HOME
+    TURTLE_CMD FD
+        NUMBER 30
+    TURTLE_CMD FD
+        OPERATOR +
+            NUMBER 30
+            NUMBER 20
+

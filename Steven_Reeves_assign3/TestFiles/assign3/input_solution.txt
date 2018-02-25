@@ -1,0 +1,14 @@
+Syntax Tree...
+BLOCK 
+    TURTLE_CMD FD
+        NUMBER 10
+    IF 
+        OPERATOR =
+            FUNCTION COLOR
+            COLOR_NAME BLACK
+        BLOCK 
+            TURTLE_CMD RT
+                NUMBER 45
+            TURTLE_CMD FD
+                NUMBER 20
+

@@ -85,6 +85,15 @@ color		{ return COLOR; }
 							return VARIABLE;
 						}
 
+\/\/.*\n	{/* ignore comments */}
+
+\/\*([^*]|(\*+[^*/]))*\*+\/	{/* ignore comments */}
+
+
+[ \t\n]		{ /* nothing! */ }
+
+(\t|" ")+	{ /* ignore whitespace */ }
+
 .			{ }
 \n			{ yylineno++; }
 

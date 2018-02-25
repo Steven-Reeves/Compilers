@@ -91,7 +91,10 @@ statements:	statement statements		{
 												$$ = $2;
 											}
 										}
-	|									{ $$ = NULL; }
+	|									{ 
+											// Empty statements
+											$$ = factory->CreateBlock();
+										}
 	;
 
 statement:	HOME						{ $$ = factory->CreateTurtleCmd(CMD_HOME); }

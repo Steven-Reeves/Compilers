@@ -1,0 +1,17 @@
+Syntax Tree...
+BLOCK 
+    DECLARATION INT
+        VARIABLE x
+    ASSIGNMENT 
+        VARIABLE x
+        NUMBER 5
+    IF 
+        OPERATOR <
+            VARIABLE x
+            NUMBER 6
+        BLOCK 
+            TURTLE_CMD RT
+                OPERATOR +
+                    VARIABLE x
+                    NUMBER 2
+

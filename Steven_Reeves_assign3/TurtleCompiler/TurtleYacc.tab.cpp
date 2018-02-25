@@ -504,10 +504,10 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    76,    76,    94,    97,    98,    99,   100,   101,   102,
-     103,   104,   105,   106,   107,   108,   109,   110,   111,   112,
-     113,   122,   132,   133,   134,   135,   136,   137,   138,   139,
-     140,   150,   151,   152,   153,   154,   157,   158,   159
+       0,    76,    76,    94,   100,   101,   102,   103,   104,   105,
+     106,   107,   108,   109,   110,   111,   112,   113,   114,   115,
+     116,   125,   135,   136,   137,   138,   139,   140,   141,   142,
+     143,   153,   154,   155,   156,   157,   160,   161,   162
 };
 #endif
 
@@ -1479,108 +1479,111 @@ yyreduce:
   case 3:
 /* Line 1792 of yacc.c  */
 #line 94 "TurtleYacc.y"
-    { (yyval.block) = NULL; }
+    { 
+											// Empty statements
+											(yyval.block) = factory->CreateBlock();
+										}
     break;
 
   case 4:
 /* Line 1792 of yacc.c  */
-#line 97 "TurtleYacc.y"
+#line 100 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_HOME); }
     break;
 
   case 5:
 /* Line 1792 of yacc.c  */
-#line 98 "TurtleYacc.y"
+#line 101 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_PD); }
     break;
 
   case 6:
 /* Line 1792 of yacc.c  */
-#line 99 "TurtleYacc.y"
+#line 102 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_PU); }
     break;
 
   case 7:
 /* Line 1792 of yacc.c  */
-#line 100 "TurtleYacc.y"
+#line 103 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_HT); }
     break;
 
   case 8:
 /* Line 1792 of yacc.c  */
-#line 101 "TurtleYacc.y"
+#line 104 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_ST); }
     break;
 
   case 9:
 /* Line 1792 of yacc.c  */
-#line 102 "TurtleYacc.y"
+#line 105 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_FD, (yyvsp[(2) - (2)].node)); }
     break;
 
   case 10:
 /* Line 1792 of yacc.c  */
-#line 103 "TurtleYacc.y"
+#line 106 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_RT, (yyvsp[(2) - (2)].node)); }
     break;
 
   case 11:
 /* Line 1792 of yacc.c  */
-#line 104 "TurtleYacc.y"
+#line 107 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_LT, (yyvsp[(2) - (2)].node)); }
     break;
 
   case 12:
 /* Line 1792 of yacc.c  */
-#line 105 "TurtleYacc.y"
+#line 108 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_BK, (yyvsp[(2) - (2)].node)); }
     break;
 
   case 13:
 /* Line 1792 of yacc.c  */
-#line 106 "TurtleYacc.y"
+#line 109 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_SETC, (yyvsp[(2) - (2)].node)); }
     break;
 
   case 14:
 /* Line 1792 of yacc.c  */
-#line 107 "TurtleYacc.y"
+#line 110 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_SETX, (yyvsp[(2) - (2)].node)); }
     break;
 
   case 15:
 /* Line 1792 of yacc.c  */
-#line 108 "TurtleYacc.y"
+#line 111 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_SETY, (yyvsp[(2) - (2)].node)); }
     break;
 
   case 16:
 /* Line 1792 of yacc.c  */
-#line 109 "TurtleYacc.y"
+#line 112 "TurtleYacc.y"
     { (yyval.node) = factory->CreateTurtleCmd(CMD_SETXY, (yyvsp[(2) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 17:
 /* Line 1792 of yacc.c  */
-#line 110 "TurtleYacc.y"
+#line 113 "TurtleYacc.y"
     { (yyval.node) = factory->CreateIf((yyvsp[(3) - (7)].node), (yyvsp[(6) - (7)].block)); }
     break;
 
   case 18:
 /* Line 1792 of yacc.c  */
-#line 111 "TurtleYacc.y"
+#line 114 "TurtleYacc.y"
     { (yyval.node) = factory->CreateIfElse((yyvsp[(3) - (10)].node), (yyvsp[(6) - (10)].block), (yyvsp[(9) - (10)].block)); }
     break;
 
   case 19:
 /* Line 1792 of yacc.c  */
-#line 112 "TurtleYacc.y"
+#line 115 "TurtleYacc.y"
     { (yyval.node) = factory->CreateRepeat((yyvsp[(2) - (5)].node), (yyvsp[(4) - (5)].block)); }
     break;
 
   case 20:
 /* Line 1792 of yacc.c  */
-#line 113 "TurtleYacc.y"
+#line 116 "TurtleYacc.y"
     { 
 											if ((yyvsp[(2) - (2)].symentry)->type != -1)
 											{
@@ -1594,7 +1597,7 @@ yyreduce:
 
   case 21:
 /* Line 1792 of yacc.c  */
-#line 122 "TurtleYacc.y"
+#line 125 "TurtleYacc.y"
     {
 											if ((yyvsp[(1) - (3)].symentry)->type == -1)
 											{
@@ -1607,55 +1610,55 @@ yyreduce:
 
   case 22:
 /* Line 1792 of yacc.c  */
-#line 132 "TurtleYacc.y"
+#line 135 "TurtleYacc.y"
     { (yyval.node) = factory->CreateOperator(OT_PLUS, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 23:
 /* Line 1792 of yacc.c  */
-#line 133 "TurtleYacc.y"
+#line 136 "TurtleYacc.y"
     { (yyval.node) = factory->CreateOperator(OT_MINUS, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 24:
 /* Line 1792 of yacc.c  */
-#line 134 "TurtleYacc.y"
+#line 137 "TurtleYacc.y"
     { (yyval.node) = factory->CreateOperator(OT_TIMES, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 25:
 /* Line 1792 of yacc.c  */
-#line 135 "TurtleYacc.y"
+#line 138 "TurtleYacc.y"
     { (yyval.node) = factory->CreateOperator(OT_DIVIDE, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node)); }
     break;
 
   case 26:
 /* Line 1792 of yacc.c  */
-#line 136 "TurtleYacc.y"
+#line 139 "TurtleYacc.y"
     { (yyval.node) = factory->CreateNumber((yyvsp[(1) - (1)].value)); }
     break;
 
   case 27:
 /* Line 1792 of yacc.c  */
-#line 137 "TurtleYacc.y"
+#line 140 "TurtleYacc.y"
     { (yyval.node) = (yyvsp[(1) - (1)].node); }
     break;
 
   case 28:
 /* Line 1792 of yacc.c  */
-#line 138 "TurtleYacc.y"
+#line 141 "TurtleYacc.y"
     { (yyval.node) = (yyvsp[(2) - (3)].node); }
     break;
 
   case 29:
 /* Line 1792 of yacc.c  */
-#line 139 "TurtleYacc.y"
+#line 142 "TurtleYacc.y"
     { (yyval.node) = factory->CreateColorName((yyvsp[(1) - (1)].colorType));}
     break;
 
   case 30:
 /* Line 1792 of yacc.c  */
-#line 140 "TurtleYacc.y"
+#line 143 "TurtleYacc.y"
     { 
 											if ((yyvsp[(1) - (1)].symentry)->type == -1)
 											{
@@ -1668,55 +1671,55 @@ yyreduce:
 
   case 31:
 /* Line 1792 of yacc.c  */
-#line 150 "TurtleYacc.y"
+#line 153 "TurtleYacc.y"
     { (yyval.node) = factory->CreateFunction(FT_COLOR);}
     break;
 
   case 32:
 /* Line 1792 of yacc.c  */
-#line 151 "TurtleYacc.y"
+#line 154 "TurtleYacc.y"
     { (yyval.node) = factory->CreateFunction(FT_XCOR);}
     break;
 
   case 33:
 /* Line 1792 of yacc.c  */
-#line 152 "TurtleYacc.y"
+#line 155 "TurtleYacc.y"
     { (yyval.node) = factory->CreateFunction(FT_YCOR);}
     break;
 
   case 34:
 /* Line 1792 of yacc.c  */
-#line 153 "TurtleYacc.y"
+#line 156 "TurtleYacc.y"
     { (yyval.node) = factory->CreateFunction(FT_HEADING);}
     break;
 
   case 35:
 /* Line 1792 of yacc.c  */
-#line 154 "TurtleYacc.y"
+#line 157 "TurtleYacc.y"
     { (yyval.node) = factory->CreateFunction(FT_RANDOM, (yyvsp[(3) - (4)].node));}
     break;
 
   case 36:
 /* Line 1792 of yacc.c  */
-#line 157 "TurtleYacc.y"
+#line 160 "TurtleYacc.y"
     { (yyval.node) = factory->CreateOperator(OT_EQUALS, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node));}
     break;
 
   case 37:
 /* Line 1792 of yacc.c  */
-#line 158 "TurtleYacc.y"
+#line 161 "TurtleYacc.y"
     { (yyval.node) = factory->CreateOperator(OT_LESSTHAN, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node));}
     break;
 
   case 38:
 /* Line 1792 of yacc.c  */
-#line 159 "TurtleYacc.y"
+#line 162 "TurtleYacc.y"
     { (yyval.node) = factory->CreateOperator(OT_GREATERTHAN, (yyvsp[(1) - (3)].node), (yyvsp[(3) - (3)].node));}
     break;
 
 
 /* Line 1792 of yacc.c  */
-#line 1720 "TurtleYacc.tab.cpp"
+#line 1723 "TurtleYacc.tab.cpp"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1948,5 +1951,5 @@ yyreturn:
 
 
 /* Line 2055 of yacc.c  */
-#line 162 "TurtleYacc.y"
+#line 165 "TurtleYacc.y"
 
