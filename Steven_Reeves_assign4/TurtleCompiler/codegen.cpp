@@ -586,9 +586,18 @@ int GenNumberTreeNode::GenerateNode(unsigned char * program, int pc)
 
 int GenColorNameTreeNode::GenerateNode(unsigned char * program, int pc)
 {
-	// TODO Assign4
+	// LOAD_R G1 value
+	program[pc++] = OPCODE_LOAD_R;
+	program[pc++] = REGISTER_G1;
+	program[pc++] = TurtleProgram::hibyte(color_type_to_colors(Color()));
+	program[pc++] = TurtleProgram::lobyte(color_type_to_colors(Color()));
+
+	// PUSH_R G1
+	program[pc++] = OPCODE_PUSH_R;
+	program[pc++] = REGISTER_G1;
 
 	return pc;
+
 }
 
 int GenFunctionTreeNode::GenerateNode(unsigned char * program, int pc)
@@ -602,7 +611,37 @@ int GenTurtleCmdTreeNode::GenerateNode(unsigned char * program, int pc)
 {
 	switch (Command())
 	{
+	// commands with two expressions
+	case CMD_SETXY:
+	{
+		TreeNode * param1 = FirstChild();
+		TreeNode * param2 = SecondChild();
+
+		pc = param1->GenerateNode(program, pc);
+		pc = param2->GenerateNode(program, pc);
+
+		// POP_R P2
+		program[pc++] = OPCODE_POP_R;
+		program[pc++] = REGISTER_P2;
+
+		// POP_R P1
+		program[pc++] = OPCODE_POP_R;
+		program[pc++] = REGISTER_P1;
+
+		// TURTLE cmd
+		program[pc++] = OPCODE_TURTLE;
+		program[pc++] = turtle_cmd_to_turtle_op(Command());
+	}
+		break;
+
+	// commands with one expression
 	case CMD_FD:
+	case CMD_BK:
+	case CMD_RT:
+	case CMD_LT:
+	case CMD_SETC:
+	case CMD_SETX:
+	case CMD_SETY:
 	{
 		TreeNode * param1 = FirstChild();
 		pc = param1->GenerateNode(program, pc);
@@ -617,7 +656,12 @@ int GenTurtleCmdTreeNode::GenerateNode(unsigned char * program, int pc)
 	}
 	break;
 
+	// commands with no expression
 	case CMD_HOME:
+	case CMD_PD:
+	case CMD_PU:
+	case CMD_HT:
+	case CMD_ST:
 		// TURTLE cmd
 		program[pc++] = OPCODE_TURTLE;
 		program[pc++] = turtle_cmd_to_turtle_op(Command());
@@ -674,9 +718,31 @@ int GenOperatorTreeNode::GenerateNode(unsigned char * program, int pc)
 		program[pc++] = REGISTER_G1;
 		program[pc++] = REGISTER_G2;
 		break;
+	
+	case OT_MINUS:
+		// MINUS_R G1 G2
+		program[pc++] = OPCODE_SUB_R;
+		program[pc++] = REGISTER_G1;
+		program[pc++] = REGISTER_G2;
+		break;
+	
+	case OT_TIMES:
+		// TIMES_R G1 G2
+		program[pc++] = OPCODE_MUL_R;
+		program[pc++] = REGISTER_G1;
+		program[pc++] = REGISTER_G2;
+		break;
+	
+	case OT_DIVIDE:
+		// DIVIDE_R G1 G2
+		program[pc++] = OPCODE_DIV_R;
+		program[pc++] = REGISTER_G1;
+		program[pc++] = REGISTER_G2;
+		break;
 
 	// TODO Assign4: other operators
 
+	// TODO : Variable operators... DIV_V and such... 
 	default:
 		break;
 	}

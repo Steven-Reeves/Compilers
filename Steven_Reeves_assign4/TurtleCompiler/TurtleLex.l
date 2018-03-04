@@ -2,11 +2,11 @@
 %{
 
 /* Turtle Compiler lex file
-   by Pete Myers
+   by Pete Myers and Steven Reeves
    OIT Portland Fall 2008
    Flex C++ version Jan 2017
 
-   Assign 4 Handout
+   Assign 4 
 */
 
 #include <stdio.h>
@@ -21,12 +21,78 @@
 
 %%
 
-[0-9]+		{ yylval.value = atoi(yytext); return NUMBER; }
+"-"?[0-9]+			{ yylval.value = atoi(yytext); return NUMBER; }
+
+black			{yylval.colorType = BLACK; return COLOR_NAME;}
+white			{yylval.colorType = WHITE; return COLOR_NAME;}
+orange			{yylval.colorType = ORANGE; return COLOR_NAME;}
+yellow			{yylval.colorType = YELLOW; return COLOR_NAME;}
+lime			{yylval.colorType = LIME; return COLOR_NAME;}
+cyan			{yylval.colorType = CYAN; return COLOR_NAME;}
+blue			{yylval.colorType = BLUE; return COLOR_NAME;}
+magenta			{yylval.colorType = MAGENTA; return COLOR_NAME;}
+red				{yylval.colorType = RED; return COLOR_NAME;}
+brown			{yylval.colorType = BROWN; return COLOR_NAME;}
+green			{yylval.colorType = GREEN; return COLOR_NAME;}
+turquoise		{yylval.colorType = TURQUOISE; return COLOR_NAME;}
+sky				{yylval.colorType = SKY; return COLOR_NAME;}
+violet			{yylval.colorType = VIOLET; return COLOR_NAME;}
+pink			{yylval.colorType = PINK; return COLOR_NAME;}
 
 "+"			{ return yytext[0]; }
+"-"			{ return yytext[0]; }
+"*"			{ return yytext[0]; }
+"/"			{ return yytext[0]; }
+"="			{ return yytext[0]; }
+">"			{ return yytext[0]; }
+"<"			{ return yytext[0]; }
+"("			{ return yytext[0]; }
+")"			{ return yytext[0]; }
+"["			{ return yytext[0]; }
+"]"			{ return yytext[0]; }
 
+int			{ return INT; }
 home		{ return HOME; }
 fd			{ return FD; }
+setxy		{ return SETXY; }
+setc		{ return SETC; }
+if			{ return IF; }
+ifelse		{ return IFELSE; }
+repeat		{ return REPEAT; }
+random		{ return RANDOM; }
+bk			{ return BK; }
+rt			{ return RT; }
+lt			{ return LT; }
+setx		{ return SETX; }
+sety		{ return SETY; }
+seth		{ return SETH; }
+pd			{ return PD; }
+pu			{ return PU; }
+ht			{ return HT; }
+st			{ return ST; }
+xcor		{ return XCOR; }
+ycor		{ return YCOR; }
+heading		{ return HEADING; }
+color		{ return COLOR; }
+
+[a-zA-Z][a-zA-Z0-9]*	{ 
+							SymbolTable::Entry * entry = SymbolTable::GetInstance()->Lookup(yytext);
+							if(entry == NULL)
+							{
+								entry = SymbolTable::GetInstance()->Insert(yytext, VARIABLE);
+							}
+							yylval.symentry = entry;
+							return VARIABLE;
+						}
+
+\/\/.*\n	{/* ignore comments */}
+
+\/\*([^*]|(\*+[^*/]))*\*+\/	{/* ignore comments */}
+
+
+[ \t\n]		{ /* nothing! */ }
+
+(\t|" ")+	{ /* ignore whitespace */ }
 
 .			{ }
 \n			{ yylineno++; }

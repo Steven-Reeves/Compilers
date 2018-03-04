@@ -48,7 +48,30 @@ extern int yydebug;
    enum yytokentype {
      HOME = 258,
      FD = 259,
-     NUMBER = 260
+     COLOR = 260,
+     XCOR = 261,
+     YCOR = 262,
+     HEADING = 263,
+     RANDOM = 264,
+     SETXY = 265,
+     SETC = 266,
+     IF = 267,
+     IFELSE = 268,
+     REPEAT = 269,
+     BK = 270,
+     RT = 271,
+     LT = 272,
+     SETX = 273,
+     SETY = 274,
+     SETH = 275,
+     PD = 276,
+     PU = 277,
+     HT = 278,
+     ST = 279,
+     INT = 280,
+     VARIABLE = 281,
+     COLOR_NAME = 282,
+     NUMBER = 283
    };
 #endif
 
@@ -60,12 +83,14 @@ typedef union YYSTYPE
 #line 31 "TurtleYacc.y"
 
 	TreeNode * node;
+	BlockTreeNode * block;
 	int value;
+	COLOR_TYPE colorType;
 	SymbolTable::Entry * symentry;
 
 
 /* Line 2058 of yacc.c  */
-#line 69 "TurtleYacc.h"
+#line 94 "TurtleYacc.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
