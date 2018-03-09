@@ -602,7 +602,23 @@ int GenColorNameTreeNode::GenerateNode(unsigned char * program, int pc)
 
 int GenFunctionTreeNode::GenerateNode(unsigned char * program, int pc)
 {
-	// TODO Assign4
+	if (Function() == FT_RANDOM)
+	{
+		// Generate code for random()
+		TreeNode * param = FirstChild();
+		pc = param->GenerateNode(program, pc);
+
+		// POP_R P1
+		program[pc++] = OPCODE_POP_R;
+		program[pc++] = REGISTER_P1;
+	}
+	// TURTLE <function's turtle operation>
+	program[pc++] = OPCODE_TURTLE;
+	program[pc++] = func_to_turtle_op(Function());
+
+	// PUSH_R RE
+	program[pc++] = OPCODE_PUSH_R;
+	program[pc++] = REGISTER_RE;
 
 	return pc;
 }
@@ -678,14 +694,100 @@ int GenTurtleCmdTreeNode::GenerateNode(unsigned char * program, int pc)
 
 int GenIfTreeNode::GenerateNode(unsigned char * program, int pc)
 {
-	// TODO Assign4
+	// generate a condition
+	TreeNode * condition = FirstChild();
+	pc = condition->GenerateNode(program, pc);
+
+	// Compare condition to false (0)
+	// POP_R G1
+	program[pc++] = OPCODE_POP_R;
+	program[pc++] = REGISTER_G1;
+
+	// LOAD G2 0x0000
+	program[pc++] = OPCODE_LOAD_R;
+	program[pc++] = REGISTER_G2;
+	program[pc++] = 0;
+	program[pc++] = 0;
+
+	// CMP_RR G1 G2
+
+	program[pc++] = OPCODE_CMP_RR;
+	program[pc++] = REGISTER_G1;
+	program[pc++] = REGISTER_G2;
+
+	// conditional JEq, remember to back-patch!
+	// JE1 0x0000 
+	program[pc++] = OPCODE_JEq;
+	program[pc++] = 0;
+	program[pc++] = 0;
+	int backpatch_address = pc;
+
+	// Generate true block
+	TreeNode * trueblock = SecondChild();
+	pc = trueblock->GenerateNode(program, pc);
+
+	// backpatch
+
+	int delta = pc - backpatch_address;
+	program[backpatch_address - 2] = TurtleProgram::hibyte(delta);
+	program[backpatch_address - 1] = TurtleProgram::lobyte(delta);
 
 	return pc;
 }
 
 int GenIfElseTreeNode::GenerateNode(unsigned char * program, int pc)
 {
-	// TODO Assign4
+	// generate a condition
+	TreeNode * condition = FirstChild();
+	pc = condition->GenerateNode(program, pc);
+
+	// Compare condition to false (0)
+	// POP_R G1
+	program[pc++] = OPCODE_POP_R;
+	program[pc++] = REGISTER_G1;
+
+	// LOAD G2 0x0000
+	program[pc++] = OPCODE_LOAD_R;
+	program[pc++] = REGISTER_G2;
+	program[pc++] = 0;
+	program[pc++] = 0;
+
+	// CMP_RR G1 G2
+	program[pc++] = OPCODE_CMP_RR;
+	program[pc++] = REGISTER_G1;
+	program[pc++] = REGISTER_G2;
+
+	// conditional JEq, remember to back-patch!
+	// JEq 0x0000 
+	program[pc++] = OPCODE_JEq;
+	program[pc++] = 0;
+	program[pc++] = 0;
+	int backpatch_jeq_address = pc;
+
+	// Generate true block
+	TreeNode * trueblock = SecondChild();
+	pc = trueblock->GenerateNode(program, pc);
+
+	// Jump over false block
+	// JMPRe 0x000 
+	program[pc++] = OPCODE_JMPRe;
+	program[pc++] = 0;
+	program[pc++] = 0;
+	int backpatch_jmpre_address = pc;
+
+	// backpatch JEq
+	int delta = pc - backpatch_jeq_address;
+	program[backpatch_jeq_address - 2] = TurtleProgram::hibyte(delta);
+	program[backpatch_jeq_address - 1] = TurtleProgram::lobyte(delta);
+
+	// Generate false block
+	TreeNode * falseblock = ThirdChild();
+	pc = falseblock->GenerateNode(program, pc);
+
+	// backpatch JMPRe
+	delta = pc - backpatch_jmpre_address;
+	program[backpatch_jmpre_address - 2] = TurtleProgram::hibyte(delta);
+	program[backpatch_jmpre_address - 1] = TurtleProgram::lobyte(delta);
 
 	return pc;
 }
@@ -720,24 +822,108 @@ int GenOperatorTreeNode::GenerateNode(unsigned char * program, int pc)
 		break;
 	
 	case OT_MINUS:
-		// MINUS_R G1 G2
+		// SUB_R G1 G2
 		program[pc++] = OPCODE_SUB_R;
 		program[pc++] = REGISTER_G1;
 		program[pc++] = REGISTER_G2;
 		break;
 	
 	case OT_TIMES:
-		// TIMES_R G1 G2
+		// MUL_R G1 G2
 		program[pc++] = OPCODE_MUL_R;
 		program[pc++] = REGISTER_G1;
 		program[pc++] = REGISTER_G2;
 		break;
 	
 	case OT_DIVIDE:
-		// DIVIDE_R G1 G2
+		// DIV_R G1 G2
 		program[pc++] = OPCODE_DIV_R;
 		program[pc++] = REGISTER_G1;
 		program[pc++] = REGISTER_G2;
+		break;
+
+	case OT_GREATERTHAN:
+		// CMP_RR G1 G2
+		program[pc++] = OPCODE_CMP_RR;
+		program[pc++] = REGISTER_G1;
+		program[pc++] = REGISTER_G2;
+
+		//LOAD_R G1 0x0001	// assume it's true
+		program[pc++] = OPCODE_LOAD_R;
+		program[pc++] = REGISTER_G1;
+
+		// Number '1' in two bytes
+		program[pc++] = 0;
+		program[pc++] = 1;
+
+		// JGt 0x0004
+		program[pc++] = OPCODE_JGt;
+		program[pc++] = 0;
+		program[pc++] = 4;
+
+		//LOAD_R G1 0	// if it's false
+		program[pc++] = OPCODE_LOAD_R;
+		program[pc++] = REGISTER_G1;
+
+		// Number '0' in two bytes
+		program[pc++] = 0;
+		program[pc++] = 0;
+
+		break;
+
+	case OT_LESSTHAN:
+		// CMP_RR G1 G2
+		program[pc++] = OPCODE_CMP_RR;
+		program[pc++] = REGISTER_G1;
+		program[pc++] = REGISTER_G2;
+
+		//LOAD_R G1 0x0001	// assume it's true
+		program[pc++] = OPCODE_LOAD_R;
+		program[pc++] = REGISTER_G1;
+
+		// Number '1' in two bytes
+		program[pc++] = 0;
+		program[pc++] = 1;
+
+		// JLt 0x0004
+		program[pc++] = OPCODE_JLt;
+		program[pc++] = 0;
+		program[pc++] = 4;
+
+		//LOAD_R G1 0	// if it's false
+		program[pc++] = OPCODE_LOAD_R;
+		program[pc++] = REGISTER_G1;
+
+		// Number '0' in two bytes
+		program[pc++] = 0;
+		program[pc++] = 0;
+		break;
+	case OT_EQUALS:
+		// CMP_RR G1 G2
+		program[pc++] = OPCODE_CMP_RR;
+		program[pc++] = REGISTER_G1;
+		program[pc++] = REGISTER_G2;
+
+		//LOAD_R G1 0x0001	// assume it's true
+		program[pc++] = OPCODE_LOAD_R;
+		program[pc++] = REGISTER_G1;
+
+		// Number '1' in two bytes
+		program[pc++] = 0;
+		program[pc++] = 1;
+
+		// JZe 0x0004
+		program[pc++] = OPCODE_JZe;
+		program[pc++] = 0;
+		program[pc++] = 4;
+
+		//LOAD_R G1 0	// if it's false
+		program[pc++] = OPCODE_LOAD_R;
+		program[pc++] = REGISTER_G1;
+
+		// Number '0' in two bytes
+		program[pc++] = 0;
+		program[pc++] = 0;
 		break;
 
 	// TODO Assign4: other operators
@@ -756,9 +942,70 @@ int GenOperatorTreeNode::GenerateNode(unsigned char * program, int pc)
 
 int GenRepeatTreeNode::GenerateNode(unsigned char * program, int pc)
 {
-	// TODO Assign4
+	// generate times to loop
+	TreeNode * loopfor = FirstChild();
+	pc = loopfor->GenerateNode(program, pc);
+
+	// save top
+	int loop_top = pc;
+
+	// peek at loop counter and compare to 1
+
+	// PEEK_R G1
+	program[pc++] = OPCODE_PEEK_R;
+	program[pc++] = REGISTER_G1;
+
+	// LOAD G2 0x0001
+	program[pc++] = OPCODE_LOAD_R;
+	program[pc++] = REGISTER_G2;
+	program[pc++] = 0;
+	program[pc++] = 1;
+
+	// CMP_RR G1 G2
+
+	program[pc++] = OPCODE_CMP_RR;
+	program[pc++] = REGISTER_G1;
+	program[pc++] = REGISTER_G2;
+
+	// conditional JLt, remember to back-patch!
+	// JLt 0x0000 
+	program[pc++] = OPCODE_JLt;
+	program[pc++] = 0;
+	program[pc++] = 0;
+	int backpatch_address = pc;
+
+	// Generate loop block
+	TreeNode * loopblock = SecondChild();
+	pc = loopblock->GenerateNode(program, pc);
+
+	// decrement!
+	// POP_R G1
+	program[pc++] = OPCODE_POP_R;
+	program[pc++] = REGISTER_G1;
+	// DEC_R G1
+	program[pc++] = OPCODE_DEC_R;
+	program[pc++] = REGISTER_G1;
+	// PUSH_R G1
+	program[pc++] = OPCODE_PUSH_R;
+	program[pc++] = REGISTER_G1;
+
+	// JMPto loop_top
+	program[pc++] = OPCODE_JMPTo;
+	program[pc++] = TurtleProgram::hibyte(loop_top);
+	program[pc++] = TurtleProgram::lobyte(loop_top);
+
+	// backpatch
+	int delta = pc - backpatch_address;
+	program[backpatch_address - 2] = TurtleProgram::hibyte(delta);
+	program[backpatch_address - 1] = TurtleProgram::lobyte(delta);
+
+	// end the loop
+	// POP_R G1
+	program[pc++] = OPCODE_POP_R;
+	program[pc++] = REGISTER_G1;
 
 	return pc;
+	// TODO Assign4
 }
 
 int GenDeclarationTreeNode::GenerateNode(unsigned char * program, int pc)
