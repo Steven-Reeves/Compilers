@@ -170,7 +170,22 @@ int TurtleProgram::GenerateStaticVariables(int pc)
 	std::list<SymbolTable::Entry*>::iterator iter;
 	for (iter = symbols.begin(); iter != symbols.end(); iter++)
 	{
-		// TODO Assign4: determine and set address for each variable
+		// determine and set address for each variable
+
+		if ((*iter)->token == VARIABLE)
+		{
+			(*iter)->address = pc;
+			if ((*iter)->type == VT_INT)
+			{
+				// Int is 2 byte, move the pc!
+				pc += 2;
+			}
+			else
+			{
+				fprintf(stderr, "Invalid variable type!");
+				exit(-1);
+			}
+		}
 	}
 
 	return pc;
@@ -929,6 +944,8 @@ int GenOperatorTreeNode::GenerateNode(unsigned char * program, int pc)
 	// TODO Assign4: other operators
 
 	// TODO : Variable operators... DIV_V and such... 
+
+
 	default:
 		break;
 	}
@@ -1010,21 +1027,50 @@ int GenRepeatTreeNode::GenerateNode(unsigned char * program, int pc)
 
 int GenDeclarationTreeNode::GenerateNode(unsigned char * program, int pc)
 {
-	// TODO Assign4: extra credit
+	// Do nothing.
 
 	return pc;
 }
 
 int GenVariableTreeNode::GenerateNode(unsigned char * program, int pc)
 {
-	// TODO Assign4: extra credit
+	// Get the variable and leave it on the stack
 
+	// get variables address
+	int var_address = Address();
+
+	// MOVE_RV G1 variable address
+	program[pc++] = OPCODE_MOVE_RV;
+	program[pc++] = REGISTER_G1;
+	program[pc++] = TurtleProgram::hibyte(var_address);
+	program[pc++] = TurtleProgram::lobyte(var_address);
+
+	// PUSH_R G1
+	program[pc++] = OPCODE_PUSH_R;
+	program[pc++] = REGISTER_G1;
 	return pc;
 }
 
 int GenAssignmentTreeNode::GenerateNode(unsigned char * program, int pc)
 {
-	// TODO Assign4: extra credit
+	// Generate right hand side
+	TreeNode * rightSide = SecondChild();
+	pc = rightSide->GenerateNode(program, pc);
+
+	// Get the result from the stack
+	//POP_R G1
+	program[pc++] = OPCODE_POP_R;
+	program[pc++] = REGISTER_G1;
+
+	// Get variable address
+	VariableTreeNode * leftSide = (VariableTreeNode*)FirstChild();
+	int var_address = leftSide->Address();
+
+	// MOVE_VR variable G1
+	program[pc++] = OPCODE_MOVE_VR;
+	program[pc++] = TurtleProgram::hibyte(var_address);
+	program[pc++] = TurtleProgram::lobyte(var_address);
+	program[pc++] = REGISTER_G1;
 
 	return pc;
 }
