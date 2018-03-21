@@ -672,6 +672,7 @@ int GenTurtleCmdTreeNode::GenerateNode(unsigned char * program, int pc)
 	case CMD_LT:
 	case CMD_SETC:
 	case CMD_SETX:
+	case CMD_SETH:
 	case CMD_SETY:
 	{
 		TreeNode * param1 = FirstChild();

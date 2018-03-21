@@ -110,6 +110,7 @@ statement:	HOME						{ $$ = factory->CreateTurtleCmd(CMD_HOME); }
 	|	SETC expression					{ $$ = factory->CreateTurtleCmd(CMD_SETC, $2); }
 	|	SETX expression					{ $$ = factory->CreateTurtleCmd(CMD_SETX, $2); }
 	|	SETY expression					{ $$ = factory->CreateTurtleCmd(CMD_SETY, $2); }
+	|	SETH expression					{ $$ = factory->CreateTurtleCmd(CMD_SETH, $2); }
 	|	SETXY expression expression		{ $$ = factory->CreateTurtleCmd(CMD_SETXY, $2, $3); }
 	|	IF '(' condition ')' '[' statements ']'	{ $$ = factory->CreateIf($3, $6); }
 	|	IFELSE '(' condition ')' '[' statements ']' '[' statements ']'	{ $$ = factory->CreateIfElse($3, $6, $9); }
