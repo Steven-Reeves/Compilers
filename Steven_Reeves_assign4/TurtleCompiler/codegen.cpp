@@ -1,9 +1,9 @@
 // codegen.c
-// pete myers
-// OIT Fall 2007
+// pete myers and Steven Reeves
+// OIT Winter 2018
 
 //
-// Assign 4 Handout
+// Assign 4
 //
 
 
@@ -698,8 +698,6 @@ int GenTurtleCmdTreeNode::GenerateNode(unsigned char * program, int pc)
 		program[pc++] = turtle_cmd_to_turtle_op(Command());
 		break;
 
-	// TODO Assign4: other commands
-
 	default:
 		break;
 	}
@@ -913,6 +911,7 @@ int GenOperatorTreeNode::GenerateNode(unsigned char * program, int pc)
 		program[pc++] = 0;
 		program[pc++] = 0;
 		break;
+
 	case OT_EQUALS:
 		// CMP_RR G1 G2
 		program[pc++] = OPCODE_CMP_RR;
@@ -940,11 +939,6 @@ int GenOperatorTreeNode::GenerateNode(unsigned char * program, int pc)
 		program[pc++] = 0;
 		program[pc++] = 0;
 		break;
-
-	// TODO Assign4: other operators
-
-	// TODO : Variable operators... DIV_V and such... 
-
 
 	default:
 		break;
@@ -1022,7 +1016,6 @@ int GenRepeatTreeNode::GenerateNode(unsigned char * program, int pc)
 	program[pc++] = REGISTER_G1;
 
 	return pc;
-	// TODO Assign4
 }
 
 int GenDeclarationTreeNode::GenerateNode(unsigned char * program, int pc)
